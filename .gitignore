@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/.idea
 .env
 .env.backup
 .phpunit.result.cache
@@ -11,3 +12,4 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /resources/views/index.blade.php
+/frontend/public
