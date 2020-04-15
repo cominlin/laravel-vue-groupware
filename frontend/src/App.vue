@@ -1,11 +1,16 @@
 <template>
   <v-app id="inspire">
+    <v-content class="c-fullHeight" v-if="noNav">
+      <router-view/>
+    </v-content>
     <v-navigation-drawer
         v-model="drawer"
         app
         clipped
+        fixed
+        v-if="!noNav"
     >
-      <v-list dense>
+      <v-list>
         <v-list-item link>
           <v-list-item-action>
             <v-icon>mdi-view-dashboard</v-icon>
@@ -28,55 +33,22 @@
     <v-app-bar
         app
         clipped-left
+        v-if="!noNav"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       <v-toolbar-title>Application</v-toolbar-title>
     </v-app-bar>
-12
     <v-content>
-      <v-container
-          class="fill-height"
-          fluid
-      >
-        <v-row
-            align="center"
-            justify="center"
-        >
-          <v-col class="shrink">
-            <v-tooltip right>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                    :href="source"
-                    icon
-                    large
-                    target="_blank"
-                    v-on="on"
-                >
-                  <v-icon large>mdi-code-tags</v-icon>
-                </v-btn>
-              </template>
-              <span>Source</span>
-            </v-tooltip>
-            <v-tooltip right>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                    icon
-                    large
-                    href="https://codepen.io/johnjleider/pen/bXNzZL"
-                    target="_blank"
-                    v-on="on"
-                >
-                  <v-icon large>mdi-codepen</v-icon>
-                </v-btn>
-              </template>
-              <span>Codepen</span>
-            </v-tooltip>
-          </v-col>
-        </v-row>
-      </v-container>
+      <transition name="fade" mode="out-in">
+        <router-view
+            transition="fade-transition"
+            :key="$route.fullPath"
+            v-if="!noNav"
+        />
+      </transition>
     </v-content>
 
-    <v-footer app>
+    <v-footer app v-if="!noNav">
       <v-spacer/>
       <span>&copy; 2020 Cominlin</span>
       <v-spacer/>
@@ -85,21 +57,25 @@
 </template>
 
 <script>
-  // import HelloWorld from './components/HelloWorld';
-
   export default {
     name: 'App',
-
-    components: {
-      // HelloWorld,
+    components: {},
+    computed: {
+      noNav() {
+        return this.$route.name === 'login' || this.$route.name === '404'
+      },
     },
-
     data: () => ({
-      //
+      drawer: true,
     }),
-
     created() {
       this.$vuetify.theme.dark = true
     },
   };
 </script>
+
+<style scoped>
+  .c-fullHeight {
+    height: 100%;
+  }
+</style>
