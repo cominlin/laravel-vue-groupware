@@ -23,6 +23,9 @@ window.setValidateLocale = lang => {
   VeeValidate.Validator.localize(lang, validateLang[lang])
 }
 
+window.axios = require('axios')
+window.Event = new Vue
+
 new Vue({
   store,
   i18n,

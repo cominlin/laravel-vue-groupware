@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../pages/login'
+import NotFoundPage from '../pages/404'
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,11 @@ let routes = [
     name: 'login',
     component: LoginPage
   },
+  {
+    path: '/*',
+    name: '404',
+    component: NotFoundPage
+  }
 ]
 
 const router = new VueRouter({
