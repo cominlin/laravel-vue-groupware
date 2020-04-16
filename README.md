@@ -12,12 +12,12 @@ Vue.js SPA for groupware
 * Laradock
 
 
-####Composer
+#### Composer
 ```
 composer install
 ```
 
-####Build Vue
+#### Build Vue
 ```
 npm install
 ls
@@ -29,7 +29,7 @@ npm run dev
 npm run prod
 ```
 
-####Set .env
+#### Set .env
 ```
 cp .env.example .env
 php artisan key:generate
@@ -37,6 +37,10 @@ php artisan key:generate
 APP_ENV=local
 APP_URL=http://xxx.com
 ...
+
+ADMIN_EMAIL=XXX@XXX.com
+ADMIN_PASSWORD=XXXXXXX
+
 DB_HOST=XXX.XXX.XXX.XXX
 DB_PORT=3306
 DB_DATABASE=XXX
@@ -48,8 +52,6 @@ MAIL_PASSWORD=xxxxxx
 MAIL_FROM_ADDRESS=xxx@bglen.jp
 MAIL_FROM_NAME=xxx
 ...
-ADMIN_EMAIL=XXX@XXX.com
-ADMIN_PASSWORD=XXXXXXX
 
 FILESYSTEM_DRIVER=(local/public/s3)
 AWS_ACCESS_KEY_ID=xxx

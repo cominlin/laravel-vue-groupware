@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'kana', 'email', 'password', 'language', 'type'
     ];
 
     /**
@@ -37,4 +37,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    const LANGUAGE_LIST = ['en', 'ja', 'tw'];
 }

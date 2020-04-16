@@ -49,4 +49,44 @@ class AuthController extends Controller
             'status' => 'success',
         ]);
     }
+
+    public function logout()
+    {
+        $accessToken = auth()->user()->token();
+
+        $refreshToken = DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        $accessToken->revoke();
+
+        return response()->json(['status' => 200]);
+    }
+
+    public function get_user()
+    {
+        $user = User::where('id', auth()->user()->id)->with(Config::get('constants.user_with'))->first();
+        if (empty($user)) {
+            return self::response_data('no_auth');
+        }
+        return response([
+            'user' => $user,
+            'notifications' => $user->notifications,
+            'status' => 'success',
+        ]);
+    }
+
+    public function change_lang(Request $request)
+    {
+        if (!empty($request->lang) && in_array($request->lang, User::LANGUAGE_LIST)) {
+            $user = Auth::user();
+            $user->language = $request->lang;
+            $user->save();
+        }
+        return response([
+            'status' => 'success',
+        ]);
+    }
 }

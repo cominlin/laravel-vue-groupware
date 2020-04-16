@@ -16,9 +16,12 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('kana')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('language')->default('ja');
+            $table->unsignedTinyInteger('type')->default(1); // 0: 無効, 1:一般, 2:admin, 3:super admin
             $table->rememberToken();
             $table->timestamps();
         });
