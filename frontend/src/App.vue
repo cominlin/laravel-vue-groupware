@@ -108,11 +108,9 @@
     mounted() {
       this.$i18n.locale = window.auth.user.language
       window.setValidateLocale(window.auth.user.language)
-      Event.$on('userLoggedIn', notifications => {
-        this.GET_NOTIFICATION_LIST(notifications)
+      Event.$on('userLoggedIn', () => {
         this.authenticated = true
         this.user = window.auth.user
-        this.joinChannel()
       })
       Event.$on('userLoggedOut', () => {
         this.authenticated = false

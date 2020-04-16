@@ -5,7 +5,6 @@ class Auth {
     this.token = window.localStorage['gw_token'] ? window.localStorage['gw_token'] : null
     this.user = window.localStorage['gw_user'] ? JSON.parse(window.localStorage['gw_user']) : Object.assign({}, defaultLoginData)
     if (this.token) {
-      window.Echo.connector.pusher.config.auth.headers.Authorization = 'Bearer ' + this.token
       window.axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.token
       this.getUser()
     }

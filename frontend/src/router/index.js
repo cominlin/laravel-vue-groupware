@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../pages/login'
+import IndexPage from '../pages/index'
 import NotFoundPage from '../pages/404'
 
 Vue.use(VueRouter)
@@ -10,6 +11,12 @@ let routes = [
     path: '/login',
     name: 'login',
     component: LoginPage
+  },
+  {
+    path: '/',
+    name: 'index',
+    component: IndexPage,
+    meta: { middlewareAuth: true }
   },
   {
     path: '/*',

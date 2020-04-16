@@ -28,6 +28,10 @@ class Api {
   }
 
   getUser() {
+    return this.call('get', '/api/get_user')
+  }
+
+  getUserList() {
     return this.call('get', '/api/user')
   }
 }

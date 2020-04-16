@@ -20,6 +20,7 @@
                 name="username"
                 prepend-icon="mdi-account"
                 type="text"
+                v-model="loginData.username"
             />
 
             <v-text-field
@@ -28,6 +29,7 @@
                 name="password"
                 prepend-icon="mdi-lock"
                 type="password"
+                v-model="loginData.password"
             />
             <v-btn class="mt-3" color="primary" @click="login" :loading="loading">Login</v-btn>
           </v-card-text>
@@ -65,7 +67,7 @@
             vm.loading = true
             window.api.sendLogin(vm.loginData).then(({ data }) => {
               window.auth.login(data.token, data.user, data.notifications)
-              vm.$router.push('/home')
+              vm.$router.push('/')
               vm.loading = false
             }, error => {
               vm.showAlert(error.data.message)

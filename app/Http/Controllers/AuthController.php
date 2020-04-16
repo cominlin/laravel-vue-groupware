@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 use DB;
 
@@ -67,13 +68,8 @@ class AuthController extends Controller
 
     public function get_user()
     {
-        $user = User::where('id', auth()->user()->id)->with(Config::get('constants.user_with'))->first();
-        if (empty($user)) {
-            return self::response_data('no_auth');
-        }
         return response([
-            'user' => $user,
-            'notifications' => $user->notifications,
+            'user' => auth()->user(),
             'status' => 'success',
         ]);
     }
