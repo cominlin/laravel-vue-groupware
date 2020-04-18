@@ -3,7 +3,9 @@ module.exports = {
     "proxy": "http://groupware.local"
   },
   "outputDir": "../public",
-  "indexPath": "index.html",
+  "indexPath": process.env.NODE_ENV === 'production'
+      ? '../resources/views/index.blade.php'
+      : 'index.html',
   "transpileDependencies": [
     "vuetify"
   ]

@@ -13,3 +13,6 @@ npm-debug.log
 yarn-error.log
 /resources/views/index.blade.php
 /frontend/public
+/public/css
+/public/js
+/public/index.html

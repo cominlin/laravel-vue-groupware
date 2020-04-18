@@ -23,10 +23,10 @@ npm install
 ls
 
 // For dev
-npm run dev
+npm run serve
 
 // For prod
-npm run prod
+npm run build
 ```
 
 #### Set .env
@@ -63,7 +63,17 @@ AWS_URL=xxx
 配信機能で、Gmailの安全性調整が必要そうです。
 ```
 
-####Set DB
+#### Docker(laradock)
+```
+// Start service
+cd laradock
+docker-compose up -d nginx mysql workspace
+
+// Stop service
+docker-compose down
+```
+
+#### Set DB
 ```
 // For dev (with test datas)
 php artisan migrate:refresh --seed
@@ -75,7 +85,7 @@ php artisan migrate
 php artisan db:seed --class=ProductionDataSeeder
 ```
 
-####Deploying Passport(prod only)
+#### Deploying Passport(prod only)
 ```
 php artisan passport:keys
 ```
