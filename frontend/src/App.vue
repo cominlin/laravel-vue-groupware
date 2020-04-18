@@ -11,22 +11,20 @@
         v-if="!noNav"
     >
       <v-list>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-view-dashboard</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon>mdi-settings</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>Settings</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <template v-for="(i, index) in listItems">
+          <v-list-item
+              exact
+              ripple
+              :to="{ name: i.routeName }"
+              :key="'list' + index">
+            <v-list-item-action>
+              <v-icon>{{ i.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>{{ $t(`title.${i.routeName}`) }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
 
@@ -65,13 +63,13 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-tile
+          <v-list-item
               :key="index"
               @click="changeLang(item.value)"
               v-for="(item, index) in languageArray"
           >
-            <v-list-tile-title>{{ item.text }}</v-list-tile-title>
-          </v-list-tile>
+            <v-list-item-title>{{ item.text }}</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-footer>
@@ -102,7 +100,20 @@
       },
       languageArray: languageOptions,
       listItems: [
-
+        {
+          routeName: 'home',
+          icon: 'mdi-home'
+        },
+        {
+          routeName: 'user',
+          icon: 'mdi-account',
+          authority: 'user_manage'
+        },
+        {
+          routeName: 'group',
+          icon: 'mdi-account-group',
+          authority: 'group_manage'
+        },
       ],
     }),
     created() {
@@ -160,5 +171,12 @@
 <style scoped>
   .c-fullHeight {
     height: 100%;
+  }
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>

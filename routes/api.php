@@ -19,6 +19,7 @@ Route::post('/login', 'AuthController@login');
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', 'AuthController@logout');
     Route::get('/get_user', 'AuthController@get_user');
+    Route::post('/change_lang', 'AuthController@change_lang');
 
     Route::get('/user', 'UserController@get_user_list');
 });

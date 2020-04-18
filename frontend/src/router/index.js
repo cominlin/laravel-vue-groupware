@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../pages/login'
 import IndexPage from '../pages/index'
+import UserPage from '../pages/user'
+import GroupPage from '../pages/group'
+
 import NotFoundPage from '../pages/404'
 
 Vue.use(VueRouter)
@@ -14,8 +17,20 @@ let routes = [
   },
   {
     path: '/',
-    name: 'index',
+    name: 'home',
     component: IndexPage,
+    meta: { middlewareAuth: true }
+  },
+  {
+    path: '/user',
+    name: 'user',
+    component: UserPage,
+    meta: { middlewareAuth: true }
+  },
+  {
+    path: '/group',
+    name: 'group',
+    component: GroupPage,
     meta: { middlewareAuth: true }
   },
   {

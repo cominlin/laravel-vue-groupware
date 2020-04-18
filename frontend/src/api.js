@@ -31,6 +31,10 @@ class Api {
     return this.call('get', '/api/get_user')
   }
 
+  changeLang(langData) {
+    return this.call('post', '/api/change_lang', langData)
+  }
+
   getUserList() {
     return this.call('get', '/api/user')
   }
