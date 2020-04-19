@@ -1,5 +1,7 @@
 <template>
-  <p>index</p>
+  <v-container grid-list-md>
+    <p class="headline c-pageTitle">ホーム</p>
+  </v-container>
 </template>
 
 <script>

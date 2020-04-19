@@ -3,5 +3,11 @@
     "home": "Home",
     "user": "User Management",
     "group": "Group Management"
+  },
+  "authority": {
+    "normal": "Normal",
+    "admin": "Admin",
+    "super_admin": "Super Admin",
+    "inactive": "Inactive"
   }
 }

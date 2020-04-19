@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use App\User;
-use DB;
 
 class AuthController extends Controller
 {
@@ -35,10 +36,8 @@ class AuthController extends Controller
         ];
 
         $request = Request::create('/oauth/token', 'POST', $data);
-
         $response = app()->handle($request);
 
-        // Check if the request was successful
         if ($response->getStatusCode() != 200) {
             return self::response_data('error_input');
         }
@@ -70,7 +69,7 @@ class AuthController extends Controller
     public function get_user()
     {
         return response([
-            'user' => auth()->user(),
+            'user' => User::with(Config::get('constants.user_with'))->where('id', Auth::user()->id)->first(),
             'status' => 'success',
         ]);
     }

@@ -3,5 +3,11 @@
     "home": "ホーム",
     "user": "ユーザー管理",
     "group": "組織管理"
+  },
+  "authority": {
+    "normal": "一般",
+    "admin": "管理者",
+    "super_admin": "スーパー管理者",
+    "inactive": "退職"
   }
 }

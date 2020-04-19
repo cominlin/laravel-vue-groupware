@@ -10,9 +10,4 @@ class Group extends Model
     {
         return $this->belongsToMany('App\User', 'user_group', 'group_id', 'user_id');
     }
-
-    public function memberCount()
-    {
-        return $this->belongsToMany('App\User', 'user_group', 'group_id', 'user_id')->count();
-    }
 }

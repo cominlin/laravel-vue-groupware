@@ -3,5 +3,11 @@
     "home": "首頁",
     "user": "使用者管理",
     "group": "組織管理"
+  },
+  "authority": {
+    "normal": "一般",
+    "admin": "管理者",
+    "super_admin": "最高管理者",
+    "inactive": "離職"
   }
 }

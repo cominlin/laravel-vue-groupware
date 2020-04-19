@@ -10,6 +10,8 @@ const state = {
   isLoading: false,
   isWaiting: false,
   userList: [],
+  retiredList: [],
+  groupList: [],
 }
 
 export default new Vuex.Store({

@@ -2,8 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import LoginPage from '../pages/login'
 import IndexPage from '../pages/index'
-import UserPage from '../pages/user'
-import GroupPage from '../pages/group'
+import SettingPage from'../pages/setting'
+import UserPage from '../pages/admin/user'
+import GroupPage from '../pages/admin/group'
 
 import NotFoundPage from '../pages/404'
 
@@ -19,6 +20,12 @@ let routes = [
     path: '/',
     name: 'home',
     component: IndexPage,
+    meta: { middlewareAuth: true }
+  },
+  {
+    path: '/setting',
+    name: 'setting',
+    component: SettingPage,
     meta: { middlewareAuth: true }
   },
   {

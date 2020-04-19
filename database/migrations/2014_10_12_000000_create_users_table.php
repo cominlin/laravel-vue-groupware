@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('kana')->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('avatar')->nullable();
             $table->string('password');
             $table->string('language')->default('ja');
             $table->unsignedTinyInteger('type')->default(1); // 0: 無効, 1:一般, 2:admin, 3:super admin

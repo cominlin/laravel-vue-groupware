@@ -35,6 +35,7 @@ window.setWaiting = waiting => {
 window.setWaiting(false)
 window.setLoading(true)
 window.getVuexData = () => {
+  store.dispatch('getGroupList')
   store.dispatch('getUserList').then(() => {
     window.setLoading(false)
   })
