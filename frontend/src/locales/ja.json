@@ -16,6 +16,7 @@
     "auth": "権限",
     "name": "名前",
     "kana": "よみがな",
+    "group_name": "組織名",
     "member": "メンバー",
     "num_member": "メンバー数",
     "created_at": "作成日時",

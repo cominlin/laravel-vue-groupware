@@ -18,6 +18,7 @@
     "kana": "Pronunciation",
     "group_name": "Group name",
     "member": "Member",
+    "num_member": "Number of members",
     "created_at": "Created at",
     "actions": "Actions"
   },
