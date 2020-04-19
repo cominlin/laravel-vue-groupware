@@ -19,7 +19,7 @@ class CheckUserAuthority
         if (auth()->user()->type < $authority) {
             return response([
                 'status' => 'error',
-                'message' => '管理権限が必要です。'
+                'message' => __('auth.no_admin_auth')
             ], 403);
         }
         return $next($request);

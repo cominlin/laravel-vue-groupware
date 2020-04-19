@@ -22,13 +22,13 @@ class Controller extends BaseController
             case 'error_remove':
                 return response([
                     'status' => 'error',
-                    'message' => '削除できませんでした'
+                    'message' => trans('auth.cant_remove', [], auth()->user()->language)
                 ], 400);
             case 'no_auth':
                 return response([
                     'status' => 'error',
                     'error' => 'invalid.credentials',
-                    'message' => '無効な権限'
+                    'message' => trans('auth.no_auth', [], auth()->user()->language)
                 ], 401);
             case 'has_message':
                 return response([
@@ -38,17 +38,17 @@ class Controller extends BaseController
             case 'error_data':
                 return response([
                     'status' => 'error',
-                    'message' => '不正なデータ'
+                    'message' => trans('auth.wrong_data', [], auth()->user()->language)
                 ], 400);
             case 'need_authority':
                 return response([
                     'status' => 'error',
-                    'message' => '管理権限が必要です。'
+                    'message' => trans('auth.wrong_data', [], auth()->user()->language)
                 ], 403);
             case 'not_found':
                 return response([
                     'status' => 'error',
-                    'message' => 'そのデータがありません。'
+                    'message' => trans('auth.id_no_data', [], auth()->user()->language)
                 ], 400);
         }
     }

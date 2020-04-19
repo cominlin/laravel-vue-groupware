@@ -19,7 +19,7 @@ class CheckIdExist
         if (!$obj) {
             return response([
                 'status' => 'error',
-                'message' => 'そのデータがありません。'
+                'message' => __('auth.id_no_data')
             ], 400);
         }
         return $next($request);

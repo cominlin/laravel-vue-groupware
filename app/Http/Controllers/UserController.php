@@ -29,14 +29,14 @@ class UserController extends Controller
     public function add_user(UserRequest $request)
     {
         if (!empty(User::where('email', $request->user['email'])->first())) {
-            return self::response_data('has_message', 'このメールはすでに使われています。');
+            return self::response_data('has_message', __('auth.already_exist'));
         }
         $password = Str::random(8);
 
         $url = url('/login');
 
         Mail::send('emails.add-user', ['password' => $password, 'email' => $request->user['email'], 'url' => $url], function ($m) use ($request) {
-            $m->to($request->user['email'])->subject('[Groupware] アカウントを新規作成しました');
+            $m->to($request->user['email'])->subject('[Groupware] '.__('email.add_title'));
         });
 
         $user = new User();
@@ -112,7 +112,7 @@ class UserController extends Controller
             $password = Str::random(8);
 
             Mail::send('emails.password-reset', ['password' => $password], function ($m) use ($user) {
-                $m->to($user->email)->subject('[Groupware] あなたのパスワードを変更しました。');
+                $m->to($user->email)->subject('[Groupware] '.__('email.reset_title'));
             });
 
             $user->password = bcrypt($password);
