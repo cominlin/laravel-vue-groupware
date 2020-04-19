@@ -265,7 +265,7 @@
             } else {
               window.api.addGroup(vm.editedItem).then(res => {
                 vm.GET_GROUP_LIST(res.data.groups)
-                Event.$emit('showAlert', vm.$t('message.added', { item: $t('object.group') }))
+                Event.$emit('showAlert', vm.$t('message.added', { item: vm.$t('object.group') }))
                 window.setWaiting(false)
                 vm.close()
               }, error => {
