@@ -15,6 +15,7 @@ import store from './store'
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(VueRouter)
+Vue.use(require('vue-moment'))
 
 window.setValidateLocale = lang => {
   let validateLang = {
@@ -46,7 +47,7 @@ window.Event = new Vue
 window.api = new Api()
 window.auth = new Auth()
 
-new Vue({
+window.Vue = new Vue({
   store,
   i18n,
   router: router,

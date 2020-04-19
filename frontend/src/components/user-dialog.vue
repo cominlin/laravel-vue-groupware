@@ -2,7 +2,7 @@
   <v-dialog :value="showUserDialog" @input="$emit('close')" max-width="600px">
     <v-card>
       <v-card-text>
-        <v-btn text icon @click="$emit('close')" class="c-close"><v-icon>close</v-icon></v-btn>
+        <v-btn text icon @click="$emit('close')" class="c-close"><v-icon>mdi-close</v-icon></v-btn>
         <div class="c-profile mb-3">
           <div :style="avatarStyle" />
           <div class="c-name">
@@ -22,7 +22,7 @@
           </v-col>
           <v-col cols="8">
             <div class="body-1 mt-3">
-              <div v-for="(g, i) in selectedUser.group" :key="'g' + i">{{ g.name }}</div>
+              <div v-for="(g, i) in selectedUser.groups" :key="'g' + i">{{ g.name }}</div>
             </div>
           </v-col>
         </v-row>

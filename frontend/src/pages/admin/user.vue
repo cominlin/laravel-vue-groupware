@@ -11,6 +11,75 @@
     <v-btn dark class="mb-2 ml-2" @click="backUserList" v-show="showRetired" :loading="isWaiting">
       ユーザーリストに戻る
     </v-btn>
+    <v-card class="mt-2" v-show="!showRetired">
+      <v-card-title>
+        <v-layout wrap>
+          <v-select
+              clearable
+              v-model="selectedGroup"
+              :items="groupList"
+              item-text="name"
+              item-value="id"
+              label="組織"
+          />
+          <v-spacer />
+          <v-text-field
+              v-model="searchText"
+              append-icon="mdi-magnify"
+              label="Search by name, email"
+              single-line
+              hide-details
+          />
+        </v-layout>
+      </v-card-title>
+      <v-data-table
+          :headers="headers"
+          :items="filteredList"
+          class="elevation-1"
+          :footer-props="{ itemsPerPageOptions: [25, 50, 100, { text: 'All', value: -1 }] }"
+      >
+        <template v-slot:item.name="{ item }">
+          <v-btn text color="blue" @click="showDetail(item)">{{ item.name }}</v-btn>
+        </template>
+        <template v-slot:item.groups="{ item }">
+          <span v-for="(g, i) in item.groups" class="c-groupText" :key="'g' + i">{{ g.name }}</span>
+        </template>
+        <template v-slot:item.actions="{ item }">
+          <v-btn icon class="mx-0" @click="editUser(item)" :loading="isWaiting">
+            <v-icon color="teal">mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-0" @click="resetPassword(item)" :loading="isWaiting">
+            <v-icon color="yellow darken-2">mdi-lock-reset</v-icon>
+          </v-btn>
+          <v-btn icon class="mx-0" @click="setResign(item, 0)" v-if="item.id !== 1" :loading="isWaiting">
+            <v-icon color="pink" small>mdi-account-off</v-icon>
+          </v-btn>
+        </template>
+        <template slot="no-data">
+          <v-alert :value="true" color="grey" icon="mdi-alert">
+            ユーザーがいません
+          </v-alert>
+        </template>
+      </v-data-table>
+    </v-card>
+    <v-data-table
+        v-show="showRetired"
+        :headers="headersRetired"
+        :items="retiredList"
+        class="elevation-1"
+        :footer-props="{ itemsPerPageOptions: [25, 50, 100, { text: 'All', value: -1 }] }"
+    >
+      <template v-slot:item.actions="{ item }">
+        <v-btn icon class="mx-0" @click="setResign(item, 1)" :loading="isWaiting">
+          <v-icon color="blue darken-1" small>mdi-undo-variant</v-icon>
+        </v-btn>
+      </template>
+      <template slot="no-data">
+        <v-alert :value="true" color="grey" icon="mdi-alert">
+          退職したユーザーがいません
+        </v-alert>
+      </template>
+    </v-data-table>
     <user-dialog
         :show-user-dialog="showUserDialog"
         :selected-user="selectedUser"
@@ -78,9 +147,9 @@
               <v-col cols="12" v-if="editedUser.id !== 1">
                 <h3>権限</h3>
                 <v-select
-                  v-model="editedUser.user.type"
-                  :items="authorityOptions"
-                  :item-text="getTranslate"
+                    v-model="editedUser.user.type"
+                    :items="authorityOptions"
+                    :item-text="getTranslate"
                 />
               </v-col>
             </v-row>
@@ -93,72 +162,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card class="mt-2" v-show="!showRetired">
-      <v-card-title>
-        <v-layout wrap>
-          <v-select
-              clearable
-              v-model="selectedGroup"
-              :items="groupList"
-              item-text="name"
-              item-value="id"
-              label="組織"
-          />
-          <v-spacer />
-          <v-text-field
-              v-model="searchText"
-              append-icon="mdi-magnify"
-              label="Search by name, email"
-              single-line
-              hide-details
-          />
-        </v-layout>
-      </v-card-title>
-      <v-data-table
-          :headers="headers"
-          :items="filteredList"
-          class="elevation-1"
-          :footer-props="{ itemsPerPageOptions: [25, 50, 100, { text: 'All', value: -1 }] }"
-      >
-        <template v-slot:item.groups="{ item }">
-          <span v-for="(g, i) in item.groups" class="c-groupText" :key="'g' + i">{{ g.name }}</span>
-        </template>
-        <template v-slot:item.actions="{ item }">
-          <v-btn icon class="mx-0" @click="editUser(item)" :loading="isWaiting">
-            <v-icon color="teal">mdi-pencil</v-icon>
-          </v-btn>
-          <v-btn icon class="mx-0" @click="resetPassword(item)" :loading="isWaiting">
-            <v-icon color="yellow darken-2">mdi-lock-reset</v-icon>
-          </v-btn>
-          <v-btn icon class="mx-0" @click="setResign(item, 0)" v-if="item.id !== 1" :loading="isWaiting">
-            <v-icon color="pink" small>mdi-account-off</v-icon>
-          </v-btn>
-        </template>
-        <template slot="no-data">
-          <v-alert :value="true" color="grey" icon="mdi-alert">
-            ユーザーがいません
-          </v-alert>
-        </template>
-      </v-data-table>
-    </v-card>
-    <v-data-table
-        v-show="showRetired"
-        :headers="headersRetired"
-        :items="retiredList"
-        class="elevation-1"
-        :footer-props="{ itemsPerPageOptions: [25, 50, 100, { text: 'All', value: -1 }] }"
-    >
-      <template v-slot:item.actions="{ item }">
-        <v-btn icon class="mx-0" @click="setResign(item, 1)" :loading="isWaiting">
-          <v-icon color="blue darken-1" small>mdi-undo-variant</v-icon>
-        </v-btn>
-      </template>
-      <template slot="no-data">
-        <v-alert :value="true" color="grey" icon="mdi-alert">
-          退職したユーザーがいません
-        </v-alert>
-      </template>
-    </v-data-table>
   </v-container>
 </template>
 
@@ -264,7 +267,7 @@
     },
     created() {
       if (this.user.type !== 3) {
-        this.$router.push('/home')
+        this.$router.push('/')
       }
     },
     methods: {
@@ -272,8 +275,8 @@
         'GET_GROUP_LIST', 'GET_USER_LIST', 'GET_RETIRED_LIST'
       ]),
       showUserAvatar(u) {
-        return u.profile.avatar === null ?
-            defaultAvatar : imageBaseUrl + u.profile.avatar
+        return u.avatar === null ?
+            defaultAvatar : imageBaseUrl + u.avatar
       },
       getTranslate(item) {
         return this.$t(item.text)
@@ -347,7 +350,7 @@
               window.api.editUser(vm.editedUser, vm.editingUserId).then(res => {
                 window.console.log(res)
                 vm.GET_GROUP_LIST(res.data.groups)
-                vm.GET_USER_LIST(res.data.users)
+                vm.GET_USER_LIST(res.data)
                 vm.close()
                 Event.$emit('showAlert', '編集しました。')
                 window.setWaiting(false)

@@ -7,6 +7,7 @@ use App\Http\Requests\GroupMemberEditRequest;
 use App\Http\Requests\GroupRequest;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class GroupController extends Controller
 {
@@ -61,8 +62,13 @@ class GroupController extends Controller
         }
         return response([
             'status' => 'success',
-            'groups' => Group::with('memberCount')->get(),
-            'users' => User::with('groups')->get()
+            'groups' => Group::withCount('members')->get(),
+            'users' => User::with(Config::get('constants.user_with'))
+                ->where('type', '<>', 0)
+                ->get(),
+            'retired_users' => User::with(Config::get('constants.user_with'))
+                ->where('type', '=', 0)
+                ->get(),
         ]);
     }
 }

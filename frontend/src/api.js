@@ -79,6 +79,10 @@ class Api {
     return this.call('put', '/api/group/' + id, groupData)
   }
 
+  editGroupMember(groupData, id) {
+    return this.call('patch', '/api/group/' + id, groupData)
+  }
+
   removeGroup(id) {
     return this.call('delete', '/api/group/' + id)
   }
