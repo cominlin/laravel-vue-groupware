@@ -9,5 +9,55 @@
     "admin": "管理者",
     "super_admin": "最高管理者",
     "inactive": "離職"
+  },
+  "object": {
+    "group": "群組",
+    "user": "使用者",
+    "auth": "権限",
+    "name": "名字",
+    "kana": "發音",
+    "group_name": "群組名",
+    "member": "成員",
+    "num_member": "成員數",
+    "created_at": "新增日期",
+    "actions": "操作"
+  },
+  "button": {
+    "save": "儲存",
+    "cancel": "取消"
+  },
+  "form_title": {
+    "new": "新增",
+    "edit": "編輯"
+  },
+  "message": {
+    "added": "{item}已新增",
+    "edited": "已編緝",
+    "removed": "已刪除",
+    "required": "＊是必須項目",
+    "no_data": "無{item}資料",
+    "ask_remove": "確定要刪除嗎？"
+  },
+  "user": {
+    "add": "新增使用者",
+    "resigned": "已離職使用者",
+    "back_user_list": "回到使用者列表",
+    "table_actions": "編輯／密碼／離職",
+    "table_actions2": "回復",
+    "reset_password_ask": "確定要重設{item}的密碼嗎？",
+    "reset_password_finish": "{item}{item}的密碼已重設。",
+    "resign_ask": "確定要將{item}設成離職嗎？",
+    "resign_finish": "{item}已被設成離職。",
+    "recover_ask": "確定要將{item}的帳號恢復嗎？",
+    "recover_finish": "{item}的帳號已回復。",
+    "no_user_data": "無使用者資料",
+    "no_resigned_data": "無離職者資料",
+    "search_user": "用名字、電子信箱搜尋"
+  },
+  "group": {
+    "add": "新增群組",
+    "member_manage": "成員管理",
+    "move_all": "全部移動",
+    "remove_all": "刪除全部"
   }
 }

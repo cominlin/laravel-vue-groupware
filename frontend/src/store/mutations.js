@@ -16,7 +16,7 @@ export default {
 
   [GET_USER_LIST] (state, data) {
     state.userList = data.users
-    state.retiredList = data.retired_users
+    state.resignedList = data.resigned_users
   },
 
   [GET_GROUP_LIST] (state, data) {

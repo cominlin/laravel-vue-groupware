@@ -9,5 +9,54 @@
     "admin": "管理者",
     "super_admin": "スーパー管理者",
     "inactive": "退職"
+  },
+  "object": {
+    "group": "組織",
+    "user": "ユーザー",
+    "auth": "権限",
+    "name": "名前",
+    "kana": "よみがな",
+    "member": "メンバー",
+    "num_member": "メンバー数",
+    "created_at": "作成日時",
+    "actions": "操作"
+  },
+  "button": {
+    "save": "登録",
+    "cancel": "取消"
+  },
+  "form_title": {
+    "new": "新規作成",
+    "edit": "編集"
+  },
+  "message": {
+    "added": "{item}を作成しました。",
+    "edited": "編集しました。",
+    "removed": "削除しました",
+    "required": "＊は必須な項目です",
+    "no_data": "{item}がありません",
+    "ask_remove": "削除してもよろしいでしょうか？"
+  },
+  "user": {
+    "add": "ユーザー新規作成",
+    "resigned": "退職したユーザー",
+    "back_user_list": "ユーザーリストに戻る",
+    "table_actions": "編集／PW／退職",
+    "table_actions2": "回復",
+    "reset_password_ask": "{item}さんのパスワードを再設定してもよろしいでしょうか？",
+    "reset_password_finish": "{item}さんのパスワードを再設定して、メールを送りました。",
+    "resign_ask": "{item}さんを退職に設定してもよろしいでしょうか？",
+    "resign_finish": "{item}さんを退職に設定しました。",
+    "recover_ask": "{item}さんを有効に設定してもよろしいでしょうか？",
+    "recover_finish": "{item}さんを有効に設定しました。",
+    "no_user_data": "ユーザーがいません",
+    "no_resigned_data": "退職したユーザーがいません",
+    "search_user": "名前、メールで検索"
+  },
+  "group": {
+    "add": "組織新規作成",
+    "member_manage": "メンバー管理",
+    "move_all": "全部移動する",
+    "remove_all": "全部削除する"
   }
 }

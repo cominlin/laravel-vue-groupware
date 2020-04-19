@@ -9,5 +9,54 @@
     "admin": "Admin",
     "super_admin": "Super Admin",
     "inactive": "Inactive"
+  },
+  "object": {
+    "group": "Group",
+    "user": "User",
+    "auth": "Authority",
+    "name": "Name",
+    "kana": "Pronunciation",
+    "group_name": "Group name",
+    "member": "Member",
+    "created_at": "Created at",
+    "actions": "Actions"
+  },
+  "button": {
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "form_title": {
+    "new": "New",
+    "edit": "Edit"
+  },
+  "message": {
+    "added": "Added {item}.",
+    "edited": "Edited.",
+    "removed": "Removed",
+    "required": "＊ is required.",
+    "no_data": "No {item} data",
+    "ask_remove": "Sure to remove？"
+  },
+  "user": {
+    "add": "Add User",
+    "resigned": "Resigned User List",
+    "back_user_list": "Back to User List",
+    "table_actions": "Edit／PW／Resign",
+    "table_actions2": "Recover",
+    "reset_password_ask": "Sure to reset {item}'s password？",
+    "reset_password_finish": "{item}'s password is reset.",
+    "resign_ask": "Sure to set {item} resigned？",
+    "resign_finish": "{item}'s account is set to resigned",
+    "recover_ask": "Sure to recover {item}'s account？",
+    "recover_finish": "{item}'s account is recovered.",
+    "no_user_data": "No user data",
+    "no_resigned_data": "No resigned user data",
+    "search_user": "Search by name, email"
+  },
+  "group": {
+    "add": "New group",
+    "member_manage": "Members management",
+    "move_all": "Move all",
+    "remove_all": "Remove all"
   }
 }

@@ -1,8 +1,8 @@
 <template>
   <v-container grid-list-md>
-    <p class="headline c-pageTitle">組織管理</p>
+    <p class="headline c-pageTitle">{{ $t('title.group') }}</p>
     <v-btn dark class="mb-2" :loading="isWaiting" @click="showDialog = true">
-      組織追加
+      {{ $t('group.add') }}
       <v-icon right>mdi-plus</v-icon>
     </v-btn>
     <v-data-table
@@ -27,14 +27,14 @@
       </template>
       <template slot="no-data">
         <v-alert :value="true" color="grey" icon="warning">
-          組織がありません
+          {{ $t('message.no_data', { item: $t('object.group') }) }}
         </v-alert>
       </template>
     </v-data-table>
     <v-dialog v-model="showDialog" max-width="500px" persistent>
       <v-card>
         <v-card-title>
-          <span class="headline">{{ formTitle }}</span>
+          <span class="headline">{{ $t(`form_title.${this.editType}`) }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -43,9 +43,9 @@
                 <v-text-field
                     name="name"
                     v-model="editedItem.name"
-                    label="組織名"
+                    :label="$t('object.group_name')"
                     :counter="20"
-                    data-vv-as="組織名"
+                    :data-vv-as="$t('object.group_name')"
                     v-validate="'required|max:20'"
                     :error-messages="errors.collect('name')"
                 />
@@ -55,15 +55,15 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text @click.native="close" :loading="isWaiting">取消</v-btn>
-          <v-btn color="blue darken-1" text @click.native="save" :loading="isWaiting">登録</v-btn>
+          <v-btn color="blue darken-1" text @click.native="close" :loading="isWaiting">{{ $t('button.cancel') }}</v-btn>
+          <v-btn color="blue darken-1" text @click.native="save" :loading="isWaiting">{{ $t('button.save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
     <v-dialog fullscreen hide-overlay persistent transition="dialog-bottom-transition" v-model="showMemberDialog">
       <v-card >
         <v-btn text icon @click="closeMemberDialog" class="c-close"><v-icon>mdi-close</v-icon></v-btn>
-        <v-card-title>{{ showMemberItem.name }} - メンバー管理</v-card-title>
+        <v-card-title>{{ showMemberItem.name }} - {{ $t('group.member_manage') }}</v-card-title>
         <v-card-text>
           <v-row>
             <v-col cols="6">
@@ -74,13 +74,13 @@
                       <v-text-field
                           append-icon="mdi-magnify"
                           hide-details
-                          label="Search by name, email"
+                          :label="$t('user.search_user')"
                           single-line
                           v-model="searchUserText"
                       />
                     </v-col>
                     <v-col cols="3">
-                      <v-btn @click="selectAllUser" dark>全部移動する</v-btn>
+                      <v-btn @click="selectAllUser" dark>{{ $t('group.move_all') }}</v-btn>
                     </v-col>
                   </v-row>
                   <div class="c-selectList">
@@ -107,8 +107,8 @@
             <v-col cols="6">
               <v-card color="blue-grey darken-3">
                 <v-card-text>
-                  <h4 class="c-memberTitle">メンバー
-                    <v-btn @click="members = []" dark>全部削除する</v-btn>
+                  <h4 class="c-memberTitle">{{ $t('object.member') }}
+                    <v-btn @click="members = []" dark>{{ $t('group.remove_all') }}</v-btn>
                   </h4>
                   <div class="c-selectList">
                     <v-list color="blue-grey darken-3" dense>
@@ -133,7 +133,7 @@
           </v-row>
         </v-card-text>
         <v-card-actions>
-          <v-btn class="ml-3" large @click="saveGroupMember">保存</v-btn>
+          <v-btn class="ml-3" large @click="saveGroupMember">{{ $t('button.save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -155,9 +155,6 @@
       ...mapState([
         'groupList', 'userList'
       ]),
-      formTitle: function () {
-        return this.dialogType === 'new' ? '追加' : '編集'
-      },
       userNameDictionary() {
         return this.$store.getters.userNameDictionary
       },
@@ -175,38 +172,40 @@
         }
         return temp.map(item => item.id)
       },
-    },
-    data() {
-      return {
-        showDialog: false,
-        showMemberDialog: false,
-        headers: [
+      headers() {
+        return [
           {
             text: 'ID',
             value: 'id'
           },
           {
-            text: '組織名',
+            text: this.$t('object.group_name'),
             align: 'left',
             value: 'name'
           },
           {
-            text: 'メンバー数',
+            text: this.$t('object.num_member'),
             align: 'left',
             value: 'members_count',
           },
           {
-            text: '作成日時',
+            text: this.$t('object.created_at'),
             value: 'created_at'
           },
           {
-            text: '操作',
+            text: this.$t('object.actions'),
             align: 'center',
             value: 'actions',
             sortable: false
           }
-        ],
-        dialogType: 'new',
+        ]
+      }
+    },
+    data() {
+      return {
+        showDialog: false,
+        showMemberDialog: false,
+        editType: 'new',
         editingGroupId: 0,
         editedItem: {
           name: '',
@@ -229,18 +228,18 @@
         'GET_GROUP_LIST', 'GET_USER_LIST'
       ]),
       editGroup(item) {
-        this.dialogType = 'edit'
+        this.editType = 'edit'
         this.editingGroupId = item.id
         this.editedItem = { name: item.name }
         this.showDialog = true
       },
       deleteGroup(deleteId) {
         let vm = this
-        if (confirm('削除してもよろしいでしょうか？')) {
+        if (confirm(vm.$t('message.ask_remove'))) {
           window.setWaiting(true)
           window.api.removeGroup(deleteId).then(res => {
             vm.GET_GROUP_LIST(res.data.groups)
-            Event.$emit('showAlert', '削除しました。')
+            Event.$emit('showAlert', vm.$t('message.removed'))
             window.setWaiting(false)
           }, error => {
             Event.$emit('showAlert', error.data.message)
@@ -253,11 +252,10 @@
         vm.$validator.validateAll().then(result => {
           if (result) {
             window.setWaiting(true)
-            let editedGroup = vm.editedItem.name
-            if (vm.dialogType === 'edit') {
+            if (vm.editType === 'edit') {
               window.api.editGroup(vm.editedItem, vm.editingGroupId).then(res => {
                 vm.GET_GROUP_LIST(res.data.groups)
-                Event.$emit('showAlert', '"' + editedGroup + '"を編集しました。')
+                Event.$emit('showAlert', vm.$t('message.edited'))
                 vm.close()
                 window.setWaiting(false)
               }, error => {
@@ -267,7 +265,7 @@
             } else {
               window.api.addGroup(vm.editedItem).then(res => {
                 vm.GET_GROUP_LIST(res.data.groups)
-                Event.$emit('showAlert', '"' + editedGroup + '"を追加しました。')
+                Event.$emit('showAlert', vm.$t('message.added', { item: $t('object.group') }))
                 window.setWaiting(false)
                 vm.close()
               }, error => {
@@ -282,7 +280,7 @@
         this.showDialog = false
         setTimeout(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
-          this.dialogType = 'new'
+          this.editType = 'new'
         }, 300)
       },
       manageMember(item) {

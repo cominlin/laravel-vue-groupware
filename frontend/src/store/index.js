@@ -10,7 +10,7 @@ const state = {
   isLoading: false,
   isWaiting: false,
   userList: [],
-  retiredList: [],
+  resignedList: [],
   groupList: [],
 }
 

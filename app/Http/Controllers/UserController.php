@@ -20,7 +20,7 @@ class UserController extends Controller
             'users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '<>', 0)
                 ->get(),
-            'retired_users' => User::with(Config::get('constants.user_with'))
+            'resigned_users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '=', 0)
                 ->get(),
         ]);
@@ -55,7 +55,7 @@ class UserController extends Controller
             'users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '<>', 0)
                 ->get(),
-            'retired_users' => User::with(Config::get('constants.user_with'))
+            'resigned_users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '=', 0)
                 ->get(),
         ]);
@@ -78,7 +78,7 @@ class UserController extends Controller
             'users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '<>', 0)
                 ->get(),
-            'retired_users' => User::with(Config::get('constants.user_with'))
+            'resigned_users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '=', 0)
                 ->get(),
         ]);
@@ -99,7 +99,7 @@ class UserController extends Controller
             'users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '<>', 0)
                 ->get(),
-            'retired_users' => User::with(Config::get('constants.user_with'))
+            'resigned_users' => User::with(Config::get('constants.user_with'))
                 ->where('type', '=', 0)
                 ->get(),
         ]);

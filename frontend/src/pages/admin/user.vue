@@ -1,17 +1,17 @@
 <template>
   <v-container grid-list-md>
-    <p class="headline c-pageTitle">ユーザー管理</p>
-    <v-btn dark class="mb-2" @click="addUser" v-show="!showRetired" :loading="isWaiting">
-      ユーザー新規作成
+    <p class="headline c-pageTitle">{{ $t('title.user') }}</p>
+    <v-btn dark class="mb-2" @click="addUser" v-show="!showResigned" :loading="isWaiting">
+      {{ $t('user.add') }}
       <v-icon right>mdi-plus</v-icon>
     </v-btn>
-    <v-btn dark class="mb-2 ml-2" @click="showRetiredList" :disabled="showForm" v-show="!showRetired" :loading="isWaiting">
-      退職したユーザー
+    <v-btn dark class="mb-2 ml-2" @click="showResignedList" :disabled="showForm" v-show="!showResigned" :loading="isWaiting">
+      {{ $t('user.resigned') }}
     </v-btn>
-    <v-btn dark class="mb-2 ml-2" @click="backUserList" v-show="showRetired" :loading="isWaiting">
-      ユーザーリストに戻る
+    <v-btn dark class="mb-2 ml-2" @click="backUserList" v-show="showResigned" :loading="isWaiting">
+      {{ $t('user.back_user_list') }}
     </v-btn>
-    <v-card class="mt-2" v-show="!showRetired">
+    <v-card class="mt-2" v-show="!showResigned">
       <v-card-title>
         <v-layout wrap>
           <v-select
@@ -20,13 +20,13 @@
               :items="groupList"
               item-text="name"
               item-value="id"
-              label="組織"
+              :label="$t('object.group')"
           />
           <v-spacer />
           <v-text-field
               v-model="searchText"
               append-icon="mdi-magnify"
-              label="Search by name, email"
+              :label="$t('user.search_user')"
               single-line
               hide-details
           />
@@ -57,15 +57,15 @@
         </template>
         <template slot="no-data">
           <v-alert :value="true" color="grey" icon="mdi-alert">
-            ユーザーがいません
+            {{ $t('user.no_user_data') }}
           </v-alert>
         </template>
       </v-data-table>
     </v-card>
     <v-data-table
-        v-show="showRetired"
-        :headers="headersRetired"
-        :items="retiredList"
+        v-show="showResigned"
+        :headers="headersResigned"
+        :items="resignedList"
         class="elevation-1"
         :footer-props="{ itemsPerPageOptions: [25, 50, 100, { text: 'All', value: -1 }] }"
     >
@@ -76,7 +76,7 @@
       </template>
       <template slot="no-data">
         <v-alert :value="true" color="grey" icon="mdi-alert">
-          退職したユーザーがいません
+          {{ $t('user.no_resigned_data') }}
         </v-alert>
       </template>
     </v-data-table>
@@ -92,8 +92,8 @@
     >
       <v-card>
         <v-card-title>
-          <span class="headline">{{ formTitle }}</span>
-          <span class="body-2 red--text ml-2">＊は必須な項目です</span>
+          <span class="headline">{{ $t(`form_title.${this.editType}`) }}</span>
+          <span class="body-2 red--text ml-2">{{ $t('message.required') }}</span>
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
@@ -102,9 +102,9 @@
                 <v-text-field
                     name="name"
                     v-model="editedUser.user.name"
-                    label="名前＊"
+                    :label="$t('object.name') + '＊'"
                     :counter="100"
-                    data-vv-as="名前"
+                    :data-vv-as="$t('object.name')"
                     v-validate="'required|max:100'"
                     :error-messages="errors.collect('name')"
                 />
@@ -113,9 +113,9 @@
                 <v-text-field
                     name="kana"
                     v-model="editedUser.user.kana"
-                    label="よみがな＊"
+                    :label="$t('object.kana') + '＊'"
                     :counter="100"
-                    data-vv-as="よみがな"
+                    :data-vv-as="$t('object.kana')"
                     v-validate="'max:100'"
                     :error-messages="errors.collect('kana')"
                 />
@@ -132,7 +132,7 @@
                 />
               </v-col>
               <v-col cols="12">
-                <h3>組織</h3>
+                <h3>{{ $t('object.group') }}</h3>
                 <v-row>
                   <v-col cols="3" v-for="(g, i) in groupList" :key="'g' + i">
                     <v-checkbox
@@ -145,7 +145,7 @@
                 </v-row>
               </v-col>
               <v-col cols="12" v-if="editedUser.id !== 1">
-                <h3>権限</h3>
+                <h3>{{ $t('object.auth') }}</h3>
                 <v-select
                     v-model="editedUser.user.type"
                     :items="authorityOptions"
@@ -157,8 +157,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn color="blue darken-1" text large @click.native="close" :loading="isWaiting">取消</v-btn>
-          <v-btn class="mr-3" dark large @click.native="save" :loading="isWaiting">登録</v-btn>
+          <v-btn color="blue darken-1" text large @click.native="close" :loading="isWaiting">{{ $t('button.cancel') }}</v-btn>
+          <v-btn class="mr-3" dark large @click.native="save" :loading="isWaiting">{{ $t('button.save') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -167,8 +167,7 @@
 
 <script>
   import { mapMutations, mapState } from 'vuex'
-  import { defaultLoginData, defaultUserFormData, userAuthorities, imageBaseUrl } from '../../static-data'
-  import defaultAvatar from '../../assets/user.jpg'
+  import { defaultLoginData, defaultUserFormData, userAuthorities } from '../../static-data'
   import UserDialog from '../../components/user-dialog'
 
   export default {
@@ -182,11 +181,8 @@
     },
     computed: {
       ...mapState([
-        'groupList', 'userList', 'retiredList'
+        'groupList', 'userList', 'resignedList'
       ]),
-      formTitle() {
-        return this.editType === 0 ? '新規作成' : '編集'
-      },
       filteredList() {
         let s = this.searchText
         let keys = ['name', 'kana', 'email']
@@ -200,26 +196,11 @@
           temp = temp.filter(item => item.groups.some(g => g.id === this.selectedGroup))
         }
         return temp
-      }
-    },
-    data() {
-      return {
-        showUserDialog: false,
-        authorityOptions: userAuthorities,
-        selectedUser: Object.assign({}, defaultLoginData),
-        showForm: false,
-        showHired: false,
-        showRetired: false,
-        editType: 0,
-        editedUser: JSON.parse(JSON.stringify(defaultUserFormData)),
-        editingUserId: 0,
-        resignMessage: [
-          ['さんを退職に設定してもよろしいでしょうか？', 'さんを退職に設定しました。'],
-          ['さんを復職に設定してもよろしいでしょうか', 'さんを復職に設定しました']
-        ],
-        headers: [
+      },
+      headers() {
+        return [
           {
-            text: '名前',
+            text: this.$t('object.name'),
             align: 'left',
             value: 'name'
           },
@@ -229,21 +210,23 @@
             value: 'email'
           },
           {
-            text: '組織',
+            text: this.$t('object.group'),
             align: 'left',
             value: 'groups',
             sortable: false
           },
           {
-            text: '編集／PW／退職',
+            text: this.$t('user.table_actions'),
             align: 'center',
             value: 'actions',
             sortable: false
           }
-        ],
-        headersRetired: [
+        ]
+      },
+      headersResigned() {
+        return [
           {
-            text: '名前',
+            text: this.$t('object.name'),
             align: 'left',
             value: 'name',
             sortable: false
@@ -255,11 +238,28 @@
             sortable: false
           },
           {
-            text: '回復',
+            text: this.$t('user.table_actions2'),
             align: 'center',
             value: 'actions',
             sortable: false
           }
+        ]
+      }
+    },
+    data() {
+      return {
+        showUserDialog: false,
+        authorityOptions: userAuthorities,
+        selectedUser: Object.assign({}, defaultLoginData),
+        showForm: false,
+        showHired: false,
+        showResigned: false,
+        editType: 'new',
+        editedUser: JSON.parse(JSON.stringify(defaultUserFormData)),
+        editingUserId: 0,
+        resignMessage: [
+          ['user.resign_ask', 'user.resign_finish'],
+          ['user.recover_ask', 'user.recover_finish']
         ],
         searchText: '',
         selectedGroup: null,
@@ -272,12 +272,8 @@
     },
     methods: {
       ...mapMutations([
-        'GET_GROUP_LIST', 'GET_USER_LIST', 'GET_RETIRED_LIST'
+        'GET_GROUP_LIST', 'GET_USER_LIST'
       ]),
-      showUserAvatar(u) {
-        return u.avatar === null ?
-            defaultAvatar : imageBaseUrl + u.avatar
-      },
       getTranslate(item) {
         return this.$t(item.text)
       },
@@ -299,18 +295,18 @@
       editUser(u) {
         this.editingUserId = u.id
         this.editedUser = this.setFormData(JSON.parse(JSON.stringify(u)))
-        this.editType = 1
+        this.editType = 'edit'
         this.showForm = true
         window.scrollTo(0, 0)
       },
       setResign(u, type) {
         let vm = this
-        if (confirm(u.name + vm.resignMessage[type][0])) {
+        if (confirm(vm.$t(vm.resignMessage[type][0], { item: u.name }))) {
           window.setWaiting(true)
           window.api.editUserType({type: type }, u.id).then(res => {
             vm.GET_GROUP_LIST(res.data.groups)
             vm.GET_USER_LIST(res.data)
-            Event.$emit('showAlert', u.name + vm.resignMessage[type][1])
+            Event.$emit('showAlert', vm.$t(vm.resignMessage[type][1], { item: u.name }))
             window.setWaiting(false)
           }, error => {
             Event.$emit('showAlert', error.data.message)
@@ -319,10 +315,10 @@
         }
       },
       resetPassword(u) {
-        if (confirm(u.name + 'さんのパスワードを再設定してもよろしいでしょうか？')) {
+        if (confirm(this.$t('user.reset_password_ask', { item: u.name }))) {
           window.setWaiting(true)
           window.api.resetPassword(u.id).then(() => {
-            Event.$emit('showAlert', u.name + 'さんのパスワードを再設定して、メールを送りました。')
+            Event.$emit('showAlert', this.$t('user.reset_password_finish', { item: u.name }))
             window.setWaiting(false)
           }, error => {
             Event.$emit('showAlert', error.data.message)
@@ -335,12 +331,12 @@
         vm.$validator.validateAll().then(result => {
           if (result) {
             window.setWaiting(true)
-            if (vm.editType === 0) {
+            if (vm.editType === 'new') {
               window.api.addUser(vm.editedUser).then(res => {
                 vm.GET_GROUP_LIST(res.data.groups)
                 vm.GET_USER_LIST(res.data)
                 vm.close()
-                Event.$emit('showAlert', 'ユーザー作成しました。')
+                Event.$emit('showAlert', vm.$t('message.added', { item: vm.$t('object.user') }))
                 window.setWaiting(false)
               }, error => {
                 Event.$emit('showAlert', error.data.message)
@@ -352,7 +348,7 @@
                 vm.GET_GROUP_LIST(res.data.groups)
                 vm.GET_USER_LIST(res.data)
                 vm.close()
-                Event.$emit('showAlert', '編集しました。')
+                Event.$emit('showAlert', vm.$t('message.edited'))
                 window.setWaiting(false)
               }, error => {
                 window.console.log(error)
@@ -371,14 +367,14 @@
         this.showForm = false
         setTimeout(() => {
           this.editedUser = JSON.parse(JSON.stringify(defaultUserFormData))
-          this.editType = 0
+          this.editType = 'new'
         }, 300)
       },
-      showRetiredList() {
-        this.showRetired = true
+      showResignedList() {
+        this.showResigned = true
       },
       backUserList() {
-        this.showRetired = false
+        this.showResigned = false
       }
     },
     watch: {
