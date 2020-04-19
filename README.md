@@ -17,25 +17,13 @@ Vue.js SPA for groupware
 composer install
 ```
 
-#### Build Vue
-```
-npm install
-ls
-
-// For dev
-npm run serve
-
-// For prod
-npm run build
-```
-
 #### Set .env
 ```
 cp .env.example .env
 php artisan key:generate
 
 APP_ENV=local
-APP_URL=http://xxx.com
+APP_URL=http://groupware.local
 ...
 
 ADMIN_EMAIL=XXX@XXX.com
@@ -47,10 +35,13 @@ DB_DATABASE=XXX
 DB_USERNAME=XXX
 DB_PASSWORD=XXX
 ...
+MAIL_MAILER=XXX
+MAIL_HOST=XXX
+MAIL_PORT=XXX
 MAIL_USERNAME=xxx@bglen.jp
-MAIL_PASSWORD=xxxxxx
+MAIL_PASSWORD=XXX
 MAIL_FROM_ADDRESS=xxx@bglen.jp
-MAIL_FROM_NAME=xxx
+MAIL_FROM_NAME=XXX
 ...
 
 FILESYSTEM_DRIVER=(local/public/s3)
@@ -75,14 +66,25 @@ docker-compose down
 
 #### Set DB
 ```
+cd laradock
 // For dev (with test datas)
-php artisan migrate:refresh --seed
-php artisan passport:install
+docker-compose run workspace php artisan migrate:refresh --seed
+docker-compose run workspace php artisan passport:install
 copy PERSONAL_Client_ID1, PERSONAL_Client_Secret1, PERSONAL_Client_ID2, PERSONAL_Client_Secret2 to .env
+```
 
-// For prod (with admin and category data only)
-php artisan migrate
-php artisan db:seed --class=ProductionDataSeeder
+#### Build Vue
+```
+cd frontend
+npm install
+
+// Use vue cli serve
+npm run serve
+(http://localhost.8080)
+
+// Use docker
+npm run build
+(http://groupware.local/) need to set host (127.0.0.1  groupware.local)
 ```
 
 #### Deploying Passport(prod only)
