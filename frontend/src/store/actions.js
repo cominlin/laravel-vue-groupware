@@ -1,6 +1,7 @@
 import {
   GET_USER_LIST,
-  GET_GROUP_LIST
+  GET_GROUP_LIST,
+  GET_SCHEDULE_CATEGORY_LIST
 } from './mutation-list'
 
 export default {
@@ -24,5 +25,16 @@ export default {
         reject(error)
       })
     })
-  }
+  },
+
+  async getScheduleCategoryList({commit}) {
+    return new Promise((resolve, reject) => {
+      window.api.getScheduleCategory().then(res => {
+        commit(GET_SCHEDULE_CATEGORY_LIST, res.data.categories)
+        resolve()
+      }, error => {
+        reject(error)
+      })
+    })
+  },
 }

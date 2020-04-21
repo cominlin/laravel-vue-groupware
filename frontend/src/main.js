@@ -11,11 +11,21 @@ import Auth from './auth.js'
 import Api from './api.js'
 import router from './router'
 import store from './store'
+import Echo from "laravel-echo"
 
 Vue.config.productionTip = false
 Vue.use(VeeValidate)
 Vue.use(VueRouter)
 Vue.use(require('vue-moment'))
+
+window.Pusher = require('pusher-js')
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: 'groupware_key',
+  wsHost: window.location.hostname,
+  wsPort: 6001,
+  disableStats: true,
+})
 
 window.setValidateLocale = lang => {
   let validateLang = {

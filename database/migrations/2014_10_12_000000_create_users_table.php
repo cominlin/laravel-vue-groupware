@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('avatar')->nullable();
             $table->string('password');
+            $table->string('timezone')->default('Asia/Tokyo');
             $table->string('language')->default('ja');
             $table->unsignedTinyInteger('type')->default(1); // 0: 無効, 1:一般, 2:admin, 3:super admin
             $table->rememberToken();

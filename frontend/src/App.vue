@@ -36,6 +36,17 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"/>
       <v-toolbar-title>Groupware</v-toolbar-title>
       <v-spacer />
+      <v-badge overlap color="red" class="mr-2" v-model="showBadge">
+        <template v-slot:badge>
+          <span class="c-notificationBadge" @click="showNotification">{{ unreadNumber }}</span>
+        </template>
+        <v-icon @click="showNotification">fa-bell</v-icon>
+        <notification-list
+            :user="user"
+            v-show="showNotificationList"
+            @close="closeNotification"
+        />
+      </v-badge>
       <v-menu offset-y class="hidden-xs-only">
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
@@ -107,23 +118,33 @@
 
 <script>
   import { defaultLoginData, languageOptions } from './static-data'
-  import { mapState } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
   import WaitingItem from './components/waiting-item'
   import LoadingItem from './components/loading-item'
+  import NotificationList from './components/notification-list'
+  import { isEmpty } from './common'
   export default {
     name: 'App',
     components: {
-      LoadingItem, WaitingItem
+      LoadingItem, WaitingItem, NotificationList
     },
     computed: {
       ...mapState([
-        'isWaiting'
+        'isWaiting', 'notificationList'
       ]),
       noNav() {
         return this.$route.name === 'login' || this.$route.name === '404'
       },
+      unreadNumber() {
+        let num = this.notificationList.filter(item => isEmpty(item.read_at)).length
+        return num > 99 ? '99+' : num
+      },
+      showBadge() {
+        return this.unreadNumber !== 0
+      }
     },
     data: () => ({
+      showNotificationList: false,
       authenticated: window.auth.check(),
       user: window.auth.user,
       drawer: null,
@@ -155,9 +176,11 @@
     mounted() {
       this.$i18n.locale = window.auth.user.language
       window.setValidateLocale(window.auth.user.language)
-      Event.$on('userLoggedIn', () => {
+      Event.$on('userLoggedIn', notifications => {
+        this.GET_NOTIFICATION_LIST(notifications)
         this.authenticated = true
         this.user = window.auth.user
+        this.joinChannel()
       })
       Event.$on('userLoggedOut', () => {
         this.authenticated = false
@@ -174,6 +197,9 @@
       })
     },
     methods: {
+      ...mapMutations([
+        'GET_NOTIFICATION_LIST', 'ADD_NEW_NOTIFICATION'
+      ]),
       logout() {
         const vm = this
         window.api.sendLogout().then(() => {
@@ -190,6 +216,13 @@
           text: text
         }
       },
+      joinChannel() {
+        let vm = this
+        window.Echo.private('App.User.' + this.user.id)
+            .notification(n => {
+              vm.ADD_NEW_NOTIFICATION(Object.assign({ created_at: vm.$moment().format('YYYY-MM-DD HH:mm:ss'), read_at: null }, n))
+            })
+      },
       changeLang(lang) {
         this.$i18n.locale = lang
         window.setValidateLocale(lang)
@@ -197,6 +230,17 @@
           window.auth.getUser()
         })
       },
+      showNotification() {
+        this.showNotificationList = !this.showNotificationList
+      },
+      closeNotification() {
+        this.showNotificationList = false
+      }
+    },
+    watch: {
+      $route() {
+        this.showNotificationList = false
+      }
     }
   };
 </script>

@@ -3,6 +3,9 @@ import {
   SET_WAITING,
   GET_USER_LIST,
   GET_GROUP_LIST,
+  GET_SCHEDULE_CATEGORY_LIST,
+  GET_NOTIFICATION_LIST,
+  ADD_NEW_NOTIFICATION
 } from './mutation-list'
 
 export default {
@@ -22,4 +25,16 @@ export default {
   [GET_GROUP_LIST] (state, data) {
     state.groupList = data
   },
+
+  [GET_SCHEDULE_CATEGORY_LIST] (state, data) {
+    state.scheduleCategoryList = data
+  },
+
+  [GET_NOTIFICATION_LIST] (state, data) {
+    state.notificationList = data
+  },
+
+  [ADD_NEW_NOTIFICATION] (state, n) {
+    state.notificationList.unshift(n)
+  }
 }

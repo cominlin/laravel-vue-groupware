@@ -73,12 +73,32 @@ docker-compose run workspace php artisan passport:install
 copy PERSONAL_Client_ID1, PERSONAL_Client_Secret1, PERSONAL_Client_ID2, PERSONAL_Client_Secret2 to .env
 ```
 
+#### Laravel WebSockets for notifications
+```
+// Create a screen
+screen
+
+// Open websocket serve
+docker-compose exec workspace bash
+php artisan websockets:serve
+
+// Keep the screen in background
+ctrl + a, d
+
+// look screen number
+screen -ls
+
+// back to the screen
+screen -r [screen number]
+```
+
+
 #### Build Vue
 ```
 cd frontend
 npm install
 
-// Use vue cli serve
+// Use vue cli serve )
 npm run serve
 (http://localhost.8080)
 

@@ -52,4 +52,21 @@ class Controller extends BaseController
                 ], 400);
         }
     }
+
+    public static function sendNotifications($user_array, $notification_name, $data, $data2 = null, $all = false)
+    {
+        $class_name = 'App\Notifications\\'.$notification_name;
+        if ($all) {
+            $users = User::select('id')
+                ->where([['id', '<>', $user_array[0]], ['state', '=', 0]])
+                ->get();
+        } else {
+            $users = $user_array;
+        }
+        if (empty($data2)) {
+            Notification::send($users, new $class_name($data));
+        } else {
+            Notification::send($users, new $class_name($data, $data2));
+        }
+    }
 }

@@ -47,6 +47,7 @@ class AuthController extends Controller
         return response([
             'token' => $data->access_token,
             'user' => $user,
+            'notifications' => $user->notifications,
             'status' => 'success',
         ]);
     }
@@ -68,8 +69,10 @@ class AuthController extends Controller
 
     public function get_user()
     {
+        $user = User::with(Config::get('constants.user_with'))->where('id', Auth::user()->id)->first();
         return response([
-            'user' => User::with(Config::get('constants.user_with'))->where('id', Auth::user()->id)->first(),
+            'user' => $user,
+            'notifications' => $user->notifications,
             'status' => 'success',
         ]);
     }
@@ -82,6 +85,22 @@ class AuthController extends Controller
             $user->save();
         }
         return response([
+            'status' => 'success',
+        ]);
+    }
+
+    public function notification_read($id)
+    {
+        if ($id == 'all') {
+            auth()->user()->unreadNotifications->markAsRead();
+        } else {
+            $notification = auth()->user()->notifications()->where('id', $id)->first();
+            if (!empty($notification)) {
+                $notification->markAsRead();
+            }
+        }
+        return response([
+            'notifications' => auth()->user()->notifications,
             'status' => 'success',
         ]);
     }

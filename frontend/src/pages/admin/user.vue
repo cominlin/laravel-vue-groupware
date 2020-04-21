@@ -131,6 +131,22 @@
                     :error-messages="errors.collect('email')"
                 />
               </v-col>
+              <v-col cols="6">
+                <v-select
+                    label="タイムゾーン"
+                    :menu-props="{maxHeight:'500'}"
+                    v-model="editedUser.user.timezone"
+                    :items="timeOptions"
+                />
+              </v-col>
+              <v-col cols="6" v-if="editedUser.id !== 1">
+                <h3>{{ $t('object.auth') }}</h3>
+                <v-select
+                    v-model="editedUser.user.type"
+                    :items="authorityOptions"
+                    :item-text="getTranslate"
+                />
+              </v-col>
               <v-col cols="12">
                 <h3>{{ $t('object.group') }}</h3>
                 <v-row>
@@ -143,14 +159,6 @@
                     />
                   </v-col>
                 </v-row>
-              </v-col>
-              <v-col cols="12" v-if="editedUser.id !== 1">
-                <h3>{{ $t('object.auth') }}</h3>
-                <v-select
-                    v-model="editedUser.user.type"
-                    :items="authorityOptions"
-                    :item-text="getTranslate"
-                />
               </v-col>
             </v-row>
           </v-container>
@@ -167,7 +175,7 @@
 
 <script>
   import { mapMutations, mapState } from 'vuex'
-  import { defaultLoginData, defaultUserFormData, userAuthorities } from '../../static-data'
+  import { defaultLoginData, defaultUserFormData, userAuthorities, timeZoneOptions } from '../../static-data'
   import UserDialog from '../../components/user-dialog'
 
   export default {
@@ -249,6 +257,7 @@
     data() {
       return {
         showUserDialog: false,
+        timeOptions: timeZoneOptions,
         authorityOptions: userAuthorities,
         selectedUser: Object.assign({}, defaultLoginData),
         showForm: false,
@@ -344,14 +353,12 @@
               })
             } else {
               window.api.editUser(vm.editedUser, vm.editingUserId).then(res => {
-                window.console.log(res)
                 vm.GET_GROUP_LIST(res.data.groups)
                 vm.GET_USER_LIST(res.data)
                 vm.close()
                 Event.$emit('showAlert', vm.$t('message.edited'))
                 window.setWaiting(false)
               }, error => {
-                window.console.log(error)
                 Event.$emit('showAlert', error.data.message)
                 window.setWaiting(false)
               })

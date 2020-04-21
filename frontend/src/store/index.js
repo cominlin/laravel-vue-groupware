@@ -12,6 +12,8 @@ const state = {
   userList: [],
   resignedList: [],
   groupList: [],
+  scheduleCategoryList: [],
+  notificationList: []
 }
 
 export default new Vuex.Store({

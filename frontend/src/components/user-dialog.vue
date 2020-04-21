@@ -25,6 +25,12 @@
               <div v-for="(g, i) in selectedUser.groups" :key="'g' + i">{{ g.name }}</div>
             </div>
           </v-col>
+          <v-col cols="4">
+            <div class="body-2 font-weight-bold mt-3">タイムゾーン</div>
+          </v-col>
+          <v-col cols="8">
+            <div class="body-1 mt-3">{{ selectedUser.timezone }}</div>
+          </v-col>
         </v-row>
       </v-card-text>
     </v-card>

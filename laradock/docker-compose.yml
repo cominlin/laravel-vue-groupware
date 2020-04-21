@@ -153,6 +153,7 @@ services:
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
       ports:
+        - 6001:6001
         - "${WORKSPACE_SSH_PORT}:22"
         - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
         - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"

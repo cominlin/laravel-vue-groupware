@@ -44,4 +44,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Group', 'user_group', 'user_id', 'group_id');
     }
+
+    public function schedules()
+    {
+        return $this->belongsToMany('App\Schedule', 'schedule_user', 'user_id', 'schedule_id');
+    }
 }

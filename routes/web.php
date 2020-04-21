@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/{any}', 'SpaController@index')->where('any', '.*');
+
+Route::get('/login', 'SpaController@index')->name('login');

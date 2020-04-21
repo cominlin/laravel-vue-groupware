@@ -26,4 +26,12 @@ export default {
     })
     return group
   },
+
+  scheduleCategoryDictionary: state => {
+    let forms = {}
+    state.scheduleCategoryList.forEach(item => {
+      forms[item.id] = { color: item.color, name: item.name }
+    })
+    return forms
+  }
 }
